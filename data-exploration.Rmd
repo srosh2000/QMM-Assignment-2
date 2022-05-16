@@ -9,6 +9,7 @@ output: html_document
 if(!require("pacman")) install.packages("pacman")
 pacman::p_load(
   tidyverse,
+  reshape2,
   psych,
   haven,
   dplyr,
@@ -38,9 +39,52 @@ describe(store_choice)
 ```{r}
 mean_price<- colMeans(store_choice[,c("SPIscore1","SPIscore2","SPIscore3","SPIscore4","SPIscore5","SPIscore6","SPIscore7","SPIscore8","SPIscore9","SPIscore10")])
 ```
-
-# plot mean Store Price Image (SPI)
+# plot mean Store Price Image
 ```{r}
 barplot(mean_price[order(mean_price,decreasing = T)], las = 2, cex.names = .5)
+```
+# Plotting evolution SPI per store over time 
+```{r}
+
+df<- store_choice %>%
+  select("week_c",
+  "SPIscore1",
+         "SPIscore2",
+  "SPIscore3",
+  "SPIscore4",
+  "SPIscore5",
+  "SPIscore6",
+  "SPIscore7",
+  "SPIscore8",
+  "SPIscore9",
+  "SPIscore10")
+meltdf<- melt(df, id = "week_c")
+
+# plot below helps to see which store has highest price image at certain point in time and how that evolves 
+ggplot(meltdf, aes(x = week_c, y = value, color = variable, group = variable))+geom_line()
+# Plotting each SPI individually 
+
+ggplot(store_choice, aes(x = week_c, y = SPIscore1))+ geom_line()
+ggplot(store_choice, aes(x = week_c, y = SPIscore2))+ geom_line()
+ggplot(store_choice, aes(x = week_c, y = SPIscore3))+ geom_line()
+ggplot(store_choice, aes(x = week_c, y = SPIscore4))+ geom_line()
+ggplot(store_choice, aes(x = week_c, y = SPIscore5))+ geom_line()
+ggplot(store_choice, aes(x = week_c, y = SPIscore6))+ geom_line()
+ggplot(store_choice, aes(x = week_c, y = SPIscore7))+ geom_line()
+ggplot(store_choice, aes(x = week_c, y = SPIscore8))+ geom_line()
+ggplot(store_choice, aes(x = week_c, y = SPIscore9))+ geom_line()
+ggplot(store_choice, aes(x = week_c, y = SPIscore10))+ geom_line()
+
+# Note: Lot of 0 values so gaps in data? 
+
+
+
+
+
+
+
+
+
+
 ```
 
