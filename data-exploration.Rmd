@@ -96,6 +96,14 @@ mean_ts<- colMeans(store_choice[,c("trip_share1","trip_share2","trip_share3","tr
 
 barplot(mean_ts[order(mean_ts,decreasing = T)], las = 2, cex.names = .5)
 ```
+# Average count of last purchase per store  
+```{r}
+count_lp<- colSums(store_choice[,c("lag1","lag2","lag3","lag4","lag5","lag6","lag7","lag8","lag9","lag10")])
+
+barplot(count_lp[order(count_lp,decreasing = T)], las = 2, cex.names = .5)
+
+```
+
 # Plotting count of last purchase per store over time 
 ```{r}
 lp<- store_choice %>%
@@ -124,12 +132,38 @@ ggplot()+
   geom_line(data = lp, aes(x = week_c, y = count_lp10, color = "store_10"))+
   xlab("Weeks")+
   ylab("Average count of last purchases per store type across time")
+```
+# HH weighted price per store across time 
+```{r}
+wprice<- store_choice %>%
+  group_by(week_c)%>%
+  summarise(mean_wprice1 = mean(wprice1),
+            mean_wprice2 = mean(wprice2),
+            mean_wprice3 = mean(wprice3),
+            mean_wprice4 = mean(wprice4),
+            mean_wprice5 = mean(wprice5),
+            mean_wprice6 = mean(wprice6),
+            mean_wprice7 = mean(wprice7),
+            mean_wprice8 = mean(wprice8),
+            mean_wprice9 = mean(wprice9),
+            mean_wprice10 = mean(wprice10))
 
-
-
-  
-  
+ggplot()+
+  geom_line(data = wprice, aes(x = week_c, y = mean_wprice1, color = "store_1"))+
+  geom_line(data = wprice, aes(x = week_c, y = mean_wprice2, color = "store_2"))+
+  geom_line(data = wprice, aes(x = week_c, y = mean_wprice3, color = "store_3"))+
+  geom_line(data = wprice, aes(x = week_c, y = mean_wprice4, color = "store_4"))+
+  geom_line(data = wprice, aes(x = week_c, y = mean_wprice5, color = "store_5"))+
+  geom_line(data = wprice, aes(x = week_c, y = mean_wprice6, color = "store_6"))+
+  geom_line(data = wprice, aes(x = week_c, y = mean_wprice7, color = "store_7"))+
+  geom_line(data = wprice, aes(x = week_c, y = mean_wprice8, color = "store_8"))+
+  geom_line(data = wprice, aes(x = week_c, y = mean_wprice9, color = "store_9"))+
+  geom_line(data = wprice, aes(x = week_c, y = mean_wprice10, color = "store_10"))+
+  xlab("Weeks")+
+  ylab("Average household weighted price per store type across time")
 
 
 ```
-# Plotting mean count of last purchase per store 
+
+
+# HH weighted feature per store across time 
