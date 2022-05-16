@@ -35,13 +35,14 @@ print(dfSummary(store_choice), method = "viewer")
 # OR 
 describe(store_choice)
 ```
+
 # Store mean prices of stores 
 ```{r}
-mean_price<- colMeans(store_choice[,c("SPIscore1","SPIscore2","SPIscore3","SPIscore4","SPIscore5","SPIscore6","SPIscore7","SPIscore8","SPIscore9","SPIscore10")])
+mean_spi<- colMeans(store_choice[,c("SPIscore1","SPIscore2","SPIscore3","SPIscore4","SPIscore5","SPIscore6","SPIscore7","SPIscore8","SPIscore9","SPIscore10")])
 ```
 # plot mean Store Price Image
 ```{r}
-barplot(mean_price[order(mean_price,decreasing = T)], las = 2, cex.names = .5)
+barplot(mean_spi[order(mean_spi,decreasing = T)], las = 2, cex.names = .5)
 ```
 # Plotting evolution SPI per store over time 
 ```{r}
@@ -63,7 +64,6 @@ meltdf<- melt(df, id = "week_c")
 # plot below helps to see which store has highest price image at certain point in time and how that evolves 
 ggplot(meltdf, aes(x = week_c, y = value, color = variable, group = variable))+geom_line()
 # Plotting each SPI individually 
-
 ggplot(store_choice, aes(x = week_c, y = SPIscore1))+ geom_line()
 ggplot(store_choice, aes(x = week_c, y = SPIscore2))+ geom_line()
 ggplot(store_choice, aes(x = week_c, y = SPIscore3))+ geom_line()
@@ -75,16 +75,61 @@ ggplot(store_choice, aes(x = week_c, y = SPIscore8))+ geom_line()
 ggplot(store_choice, aes(x = week_c, y = SPIscore9))+ geom_line()
 ggplot(store_choice, aes(x = week_c, y = SPIscore10))+ geom_line()
 
-# Note: Lot of 0 values so gaps in data? 
+# Note: Lot of 0 values so gaps in data? ahhh its stores other than the 10 in the sample.. 
+```
+# Plotting avg distance to the household's residence for the nearest outlet of the store 
+```{r}
+mean_distance<- colMeans(store_choice[,c("distance1","distance2","distance3","distance4","distance5","distance6","distance7","distance8","distance9","distance10")])
+
+barplot(mean_distance[order(mean_distance,decreasing = T)], las = 2, cex.names = .5)
+
+```
+# Plotting average floor space
+```{r}
+mean_floor<- colMeans(store_choice[,c("floor1","floor2","floor3","floor4","floor5","floor6","floor7","floor8","floor9","floor10")])
+
+barplot(mean_floor[order(mean_floor,decreasing = T)], las = 2, cex.names = .5)
+```
+# Plotting average trip share 
+```{r}
+mean_ts<- colMeans(store_choice[,c("trip_share1","trip_share2","trip_share3","trip_share4","trip_share5","trip_share6","trip_share7","trip_share8","trip_share9","trip_share10")])
+
+barplot(mean_ts[order(mean_ts,decreasing = T)], las = 2, cex.names = .5)
+```
+# Plotting count of last purchase per store over time 
+```{r}
+lp<- store_choice %>%
+  group_by(week_c)%>%
+  summarise(count_lp1 = sum(lag1),
+            count_lp2 = sum(lag2),
+            count_lp3 = sum(lag3),
+            count_lp4 = sum(lag4),
+            count_lp5 = sum(lag5),
+            count_lp6 = sum(lag6),
+            count_lp7 = sum(lag7),
+            count_lp8 = sum(lag8),
+            count_lp9 = sum(lag9),
+            count_lp10 = sum(lag10))
+
+ggplot()+
+  geom_line(data = lp, aes(x = week_c, y = count_lp1, color = "store_1"))+
+  geom_line(data = lp, aes(x = week_c, y = count_lp2, color = "store_2"))+
+  geom_line(data = lp, aes(x = week_c, y = count_lp3, color = "store_3"))+
+  geom_line(data = lp, aes(x = week_c, y = count_lp4, color = "store_4"))+
+  geom_line(data = lp, aes(x = week_c, y = count_lp5, color = "store_5"))+
+  geom_line(data = lp, aes(x = week_c, y = count_lp6, color = "store_6"))+
+  geom_line(data = lp, aes(x = week_c, y = count_lp7, color = "store_7"))+
+  geom_line(data = lp, aes(x = week_c, y = count_lp8, color = "store_8"))+
+  geom_line(data = lp, aes(x = week_c, y = count_lp9, color = "store_9"))+
+  geom_line(data = lp, aes(x = week_c, y = count_lp10, color = "store_10"))+
+  xlab("Weeks")+
+  ylab("Average count of last purchases per store type across time")
 
 
 
-
-
-
-
-
+  
+  
 
 
 ```
-
+# Plotting mean count of last purchase per store 
