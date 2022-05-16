@@ -197,4 +197,70 @@ ggplot()+
 
 # side note: maybe good to show them separately?
 ```
+# Plotting count of store choice  over time 
+```{r}
+chosen<- store_choice %>%
+  group_by(week_c)%>%
+  summarise(count_chosen1 = sum(chosen1),
+            count_chosen2 = sum(chosen2),
+            count_chosen3 = sum(chosen3),
+            count_chosen4 = sum(chosen4),
+            count_chosen5 = sum(chosen5),
+            count_chosen6 = sum(chosen6),
+            count_chosen7 = sum(chosen7),
+            count_chosen8 = sum(chosen8),
+            count_chosen9 = sum(chosen9),
+            count_chosen10 = sum(chosen10))
+
+ggplot()+
+  geom_line(data = chosen, aes(x = week_c, y = count_chosen1, color = "store_1"))+
+  geom_line(data = chosen, aes(x = week_c, y = count_chosen2, color = "store_2"))+
+  geom_line(data = chosen, aes(x = week_c, y = count_chosen3, color = "store_3"))+
+  geom_line(data = chosen, aes(x = week_c, y = count_chosen4, color = "store_4"))+
+  geom_line(data = chosen, aes(x = week_c, y = count_chosen5, color = "store_5"))+
+  geom_line(data = chosen, aes(x = week_c, y = count_chosen6, color = "store_6"))+
+  geom_line(data = chosen, aes(x = week_c, y = count_chosen7, color = "store_7"))+
+  geom_line(data = chosen, aes(x = week_c, y = count_chosen8, color = "store_8"))+
+  geom_line(data = chosen, aes(x = week_c, y = count_chosen9, color = "store_9"))+
+  geom_line(data = chosen, aes(x = week_c, y = count_chosen10, color = "store_10"))+
+  xlab("Weeks")+
+  ylab("Average count of store choice per store type across time")
+```
+# Plotting evolution of store rating over time 
+```{r}
+pi<- store_choice %>%
+  group_by(week_c)%>%
+  summarise(mean_pi1 = mean(pi1),
+            mean_pi2 = mean(pi2),
+            mean_pi3 = mean(pi3),
+            mean_pi4 = mean(pi4),
+            mean_pi5 = mean(pi5),
+            mean_pi6 = mean(pi6),
+            mean_pi7 = mean(pi7),
+            mean_pi8 = mean(pi8),
+            mean_pi9 = mean(pi9),
+            mean_pi10 = mean(pi10))
+
+ggplot()+
+  geom_line(data = pi, aes(x = week_c, y = mean_pi1, color = "store_1"))+
+  geom_line(data = pi, aes(x = week_c, y = mean_pi2, color = "store_2"))+
+  geom_line(data = pi, aes(x = week_c, y = mean_pi3, color = "store_3"))+
+  geom_line(data = pi, aes(x = week_c, y = mean_pi4, color = "store_4"))+
+  geom_line(data = pi, aes(x = week_c, y = mean_pi5, color = "store_5"))+
+  geom_line(data = pi, aes(x = week_c, y = mean_pi6, color = "store_6"))+
+  geom_line(data = pi, aes(x = week_c, y = mean_pi7, color = "store_7"))+
+  geom_line(data = pi, aes(x = week_c, y = mean_pi8, color = "store_8"))+
+  geom_line(data = pi, aes(x = week_c, y = mean_pi9, color = "store_9"))+
+  geom_line(data = pi, aes(x = week_c, y = mean_pi10, color = "store_10"))+
+  xlab("Weeks")+
+  ylab("Average store rating per store type across time")
+```
+
+# Plotting mean store rating per store type 
+```{r}
+mean_pi<- colMeans(store_choice[,c("pi1","pi2","pi3","pi4","pi5","pi6","pi7","pi8","pi9","pi10")])
+
+barplot(mean_pi[order(mean_pi,decreasing = T)], las = 2, cex.names = .5)
+```
+
 
