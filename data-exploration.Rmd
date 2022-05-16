@@ -9,6 +9,7 @@ output: html_document
 if(!require("pacman")) install.packages("pacman")
 pacman::p_load(
   tidyverse,
+  psych,
   haven,
   dplyr,
   lubridate,
@@ -26,8 +27,20 @@ options(scipen=999)
 ```{r}
 store_choice<- read_sav("data/StoreChoices.sav")
 ```
+# Overall summary stats of dataframe
+```{r}
+print(dfSummary(store_choice), method = "viewer")
 
+# OR 
+describe(store_choice)
+```
+# Store mean prices of stores 
+```{r}
+mean_price<- colMeans(store_choice[,c("SPIscore1","SPIscore2","SPIscore3","SPIscore4","SPIscore5","SPIscore6","SPIscore7","SPIscore8","SPIscore9","SPIscore10")])
+```
 
-#---PLOTS---#
+# plot mean Store Price Image (SPI)
+```{r}
+barplot(mean_price[order(mean_price,decreasing = T)], las = 2, cex.names = .5)
+```
 
-# Summary stats: Price per brand 
