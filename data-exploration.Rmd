@@ -1,0 +1,33 @@
+---
+title: "data-exploration"
+author: "Roshini Sudhaharan"
+date: "16/05/2022"
+output: html_document
+---
+# Load packages 
+```{r}
+if(!require("pacman")) install.packages("pacman")
+pacman::p_load(
+  tidyverse,
+  haven,
+  dplyr,
+  lubridate,
+  readr,
+  data.table,
+  ggplot2,
+  systemfit,
+  summarytools
+)
+options(scipen=999)
+```
+
+
+# Load data 
+```{r}
+store_choice<- read_sav("data/StoreChoices.sav")
+```
+
+
+#---PLOTS---#
+
+# Summary stats: Price per brand 
