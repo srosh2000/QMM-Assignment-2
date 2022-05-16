@@ -167,3 +167,34 @@ ggplot()+
 
 
 # HH weighted feature per store across time 
+```{r}
+wfeature<- store_choice %>%
+  group_by(week_c)%>%
+  summarise(mean_feature1 = mean(wfeature1),
+            mean_feature2 = mean(wfeature2),
+            mean_feature3 = mean(wfeature3),
+            mean_feature4 = mean(wfeature4),
+            mean_feature5 = mean(wfeature5),
+            mean_feature6 = mean(wfeature6),
+            mean_feature7 = mean(wfeature7),
+            mean_feature8 = mean(wfeature8),
+            mean_feature9 = mean(wfeature9),
+            mean_feature10 = mean(wfeature10))
+
+ggplot()+
+  geom_line(data = wfeature, aes(x = week_c, y = mean_feature1, color = "store_1"))+
+  geom_line(data = wfeature, aes(x = week_c, y = mean_feature2, color = "store_2"))+
+  geom_line(data = wfeature, aes(x = week_c, y = mean_feature3, color = "store_3"))+
+  geom_line(data = wfeature, aes(x = week_c, y = mean_feature4, color = "store_4"))+
+  geom_line(data = wfeature, aes(x = week_c, y = mean_feature5, color = "store_5"))+
+  geom_line(data = wfeature, aes(x = week_c, y = mean_feature6, color = "store_6"))+
+  geom_line(data = wfeature, aes(x = week_c, y = mean_feature7, color = "store_7"))+
+  geom_line(data = wfeature, aes(x = week_c, y = mean_feature8, color = "store_8"))+
+  geom_line(data = wfeature, aes(x = week_c, y = mean_feature9, color = "store_9"))+
+  geom_line(data = wfeature, aes(x = week_c, y = mean_feature10, color = "store_10"))+
+  xlab("Weeks")+
+  ylab("Average household weighted feature activity per store type across time")
+
+# side note: maybe good to show them separately?
+```
+
